@@ -16,7 +16,19 @@ args = parser.parse_args()
 # x = requests.get('https://api.github.com/repos/%s/contributors' % (args.location[0]))
 x = requests.post('https://web.archive.org/save/%s' % (args.url[0]), data = {'url':args.url[0]})
 
-# print(x)
+
+# test this further and improve for fix #1
+# x = requests.get('https://web.archive.org/web/%s' % (args.url[0]))
+# i realize that asking for this if there is no previous backup, then it will backup!
+# header=x.headers
+# if 'X-Cache-Key' in header.keys():
+# 	link=header['X-Cache-Key'][5:-2]
+# 	link="https://"+link
+# 	print(link)
+# else:
+# 	print("This page does not exist yet in Internet Archive. But we'll try to back it up!")
+# print(header['X-Cache-Key'])
+
 tree = html.fromstring(x.content)
 # result = x.json()
 # print(len(result))
@@ -27,7 +39,7 @@ result2 = tree.xpath('//h2[1]/../p[1]/text()')
 
 if result2==[]:
 	print("Wait a few minutes and then open:")
-	print("https://web.archive.org/web/*/%s" % (args.url[0]))
+	print("https://web.archive.org/web/%s" % (args.url[0]))
 else:
 	print(result2)
 
